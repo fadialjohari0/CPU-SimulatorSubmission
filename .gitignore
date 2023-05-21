@@ -1,4 +1,6 @@
-bin/
-obj/
 .vscode/
 .config/
+CPU-Simulator/bin/
+CPU-Simulator/obj/
+CPU-Simulator.Tests/bin/
+CPU-Simulator.Tests/obj/
