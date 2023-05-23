@@ -15,19 +15,28 @@ namespace CPU
                 clockCycle++;
 
                 bool allProcessorsBusy = processors.All(processor => processor.State == ProcessorState.BUSY);
+                bool anyProcessorHasLowPriorityTask = processors.Any(processor => processor.CurrentTask?.Priority == "Low");
 
-                if (allProcessorsBusy && HighPriorityQueue.Count > 0 && processors.Any(processor => processor.CurrentTask?.Priority == "Low"))
+                if (allProcessorsBusy && HighPriorityQueue.Count > 0 && anyProcessorHasLowPriorityTask)
                 {
                     foreach (Processor processor in processors)
                     {
                         if (processor.CurrentTask?.Priority == "Low")
                         {
                             processor.CurrentTask.State = TaskState.WAITING;
+
                             Console.WriteLine($"{processor.CurrentTask.Id} was interrupted with {processor.CurrentTask.Priority} at clockCycle {clockCycle} with requested time {processor.CurrentTask.RequestedTime}");
+
                             LowPriorityWaitingQueue.Enqueue(processor.CurrentTask, processor.CurrentTask.RequestedTime);
+
                             processor.CurrentTask = HighPriorityQueue.Dequeue();
+
                             processor.CurrentTask.State = TaskState.EXECUTING;
+
+
+
                             Console.WriteLine($"{processor.CurrentTask.Id} was added instead with {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
+
                             break;
                         }
                     }
@@ -55,7 +64,7 @@ namespace CPU
                         }
                         else if (processor.State == ProcessorState.BUSY)
                         {
-                            processor.CurrentTask!.RequestedTime--;
+                            processor.ExecuteTask();
                             if (processor.CurrentTask.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
                             {
                                 Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority}");
@@ -71,10 +80,8 @@ namespace CPU
                             else if (processor.CurrentTask.RequestedTime == 0)
                             {
                                 Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
-                                processor.CurrentTask.State = TaskState.COMPLETED;
-                                processor.CurrentTask.CompletionTime = clockCycle;
-                                processor.CurrentTask = null;
-                                processor.State = ProcessorState.IDLE;
+                                processor.FinishTask();
+
                             }
                         }
                     }
