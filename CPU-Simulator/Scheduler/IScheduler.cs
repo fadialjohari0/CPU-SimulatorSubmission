@@ -2,6 +2,10 @@ namespace CPU
 {
     public interface IScheduler
     {
-        void Schedule(List<Task> tasks, List<Processor> processors, ref int clockCycle);
+        void InterruptLowTasks(List<Processor> processors, int clockCycle, PriorityQueue<Task, int> LowPriorityWaitingQueue, PriorityQueue<Task, int> HighPriorityQueue);
+
+        void AssignTasksToProcessors(List<Processor> processors, int clockCycle, PriorityQueue<Task, int> LowPriorityWaitingQueue, PriorityQueue<Task, int> HighPriorityQueue, PriorityQueue<Task, int> LowPriorityQueue);
+
+        void CreateTasks(List<Task> tasks, int clockCycle, PriorityQueue<Task, int> HighPriorityQueue, PriorityQueue<Task, int> LowPriorityQueue);
     }
 }
