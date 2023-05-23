@@ -18,7 +18,7 @@ namespace CPU
 
                 bool allProcessorsBusy = processors.All(processor => processor.State == ProcessorState.BUSY);
 
-                if (allProcessorsBusy && HighPriorityQueue.Count > 0)
+                if (allProcessorsBusy && HighPriorityQueue.Count > 0 && processors.Any(processor => processor.CurrentTask?.Priority == "Low"))
                 {
                     foreach (Processor processor in processors)
                     {
@@ -38,7 +38,6 @@ namespace CPU
                 {
                     foreach (Processor processor in processors)
                     {
-
                         if (processor.State == ProcessorState.IDLE)
                         {
                             if (HighPriorityQueue.Count > 0)
