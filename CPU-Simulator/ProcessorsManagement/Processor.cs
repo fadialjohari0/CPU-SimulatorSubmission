@@ -5,6 +5,7 @@ namespace CPU
         public string? Id { get; set; }
         public ProcessorState State { get; set; }
         public Task? CurrentTask { get; set; }
+        public int numOfProcessors { get; set; }
         public void AssignTask(Task task)
         {
             CurrentTask = task;

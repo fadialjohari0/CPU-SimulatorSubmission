@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Newtonsoft.Json;
 
 namespace CPU
 {
@@ -9,15 +9,24 @@ namespace CPU
     {
         static void Main(string[] args)
         {
-            IProcessorInitializer processorInitializer = new ProcessorInitializer();
-            ITasksPriorityHandler tasksPriorityHandler = new TasksPriorityHandler();
-            Scheduler scheduler = new Scheduler();
-            OutputFile outputFile = new OutputFile();
+            var json = FileReader.ReadFromFile("Tasks.json", content => content);
+            var data = JsonConvert.DeserializeObject<Data>(json);
 
-            Simulator simulator = new Simulator(processorInitializer, tasksPriorityHandler, scheduler, outputFile);
-            simulator.Start();
+            int numOfProcessors = data!.NumOfProcessors; // Number Of Processors.
+            List<Task> tasks = data.Tasks!; // List Of Tasks.
+
+            /*****************************/
+
+            ProcessorManager processorManager = new ProcessorManager();
+            List<Processor> processors = processorManager.InitializeProcessors(numOfProcessors); // List Of Processors.
+
+            /*****************************/
+
+            Simulator simulator = new Simulator();
+            simulator.StartSimulation(tasks, processors, ref clockCycle); // Starting The Simulation.
+
+            /*****************************/
         }
+        public static int clockCycle = 0;
     }
-
-
 }

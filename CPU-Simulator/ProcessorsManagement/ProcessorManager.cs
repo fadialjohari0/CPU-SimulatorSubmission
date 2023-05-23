@@ -1,18 +1,18 @@
 namespace CPU
 {
-    public class ProcessorInitializer : IProcessorInitializer
+    public class ProcessorManager
     {
         List<Processor> processors = new List<Processor>();
+
         public List<Processor> InitializeProcessors(int numOfProcessors)
         {
             for (int i = 0; i < numOfProcessors; i++)
             {
-                Processor processor = new Processor()
+                processors.Add(new Processor
                 {
                     Id = $"P{i + 1}",
-                    State = ProcessorState.IDLE
-                };
-                processors.Add(processor);
+                    State = ProcessorState.IDLE,
+                });
             }
             return processors;
         }

@@ -9,4 +9,5 @@ namespace CPU
         public string? Priority { get; set; }
         public TaskState State { get; set; }
     }
+
 }
