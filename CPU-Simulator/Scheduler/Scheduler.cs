@@ -2,13 +2,11 @@ namespace CPU
 {
     public class Scheduler : IScheduler
     {
-        TasksQueueManagement tasksQueueManagement = new TasksQueueManagement();
 
-        public PriorityQueue<Task, int> HighPriorityQueue => tasksQueueManagement.HighPriorityQueue;
-        public PriorityQueue<Task, int> LowPriorityQueue => tasksQueueManagement.LowPriorityQueue;
+        public PriorityQueue<Task, int> HighPriorityQueue { get; set; } = new PriorityQueue<Task, int>();
+        public PriorityQueue<Task, int> LowPriorityQueue { get; set; } = new PriorityQueue<Task, int>();
 
-        public PriorityQueue<Task, int> LowPriorityWaitingQueue => tasksQueueManagement.LowPriorityWaitingQueue;
-
+        public PriorityQueue<Task, int> LowPriorityWaitingQueue { get; set; } = new PriorityQueue<Task, int>();
 
         public void Schedule(List<Task> tasks, List<Processor> processors, ref int clockCycle)
         {
@@ -61,8 +59,11 @@ namespace CPU
                             if (processor.CurrentTask.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
                             {
                                 Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority}");
+
                                 processor.CurrentTask.State = TaskState.COMPLETED;
                                 processor.CurrentTask.CompletionTime = clockCycle;
+
+
                                 processor.CurrentTask = LowPriorityWaitingQueue.Dequeue();
                                 Console.WriteLine($"{processor.CurrentTask.Id} is back from the low priority waiting queue at clockCycle {clockCycle} with requested time {processor.CurrentTask.RequestedTime}");
 
