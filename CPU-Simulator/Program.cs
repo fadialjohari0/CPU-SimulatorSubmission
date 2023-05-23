@@ -22,8 +22,8 @@ namespace CPU
 
             /*****************************/
 
-            Simulator simulator = new Simulator();
-            simulator.StartSimulation(tasks, processors, ref clockCycle); // Starting The Simulation.
+            Simulator simulator = new Simulator(tasks, processors, clockCycle);
+            simulator.StartSimulation(); // Starting The Simulation.
 
             /*****************************/
 
