@@ -6,8 +6,6 @@ namespace CPU
         {
             IScheduler scheduler = new Scheduler();
             scheduler.Schedule(tasks!, processors, ref clockCycle);
-
-
         }
     }
 }
