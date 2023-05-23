@@ -1,0 +1,18 @@
+
+---------------------------OUTPUT DATA---------------------------
+
+Task ID | Creation Time | Completion Time | Priority | State
+--------|---------------|-----------------|----------|-----------
+T1      | 3             | 52              | Low      | COMPLETED
+T2      | 4             | 43              | Low      | COMPLETED
+T3      | 5             | 10              | High     | COMPLETED
+T4      | 20            | 26              | High     | COMPLETED
+T5      | 15            | 68              | Low      | COMPLETED
+T6      | 16            | 30              | High     | COMPLETED
+T7      | 2             | 47              | Low      | COMPLETED
+T8      | 18            | 33              | High     | COMPLETED
+T9      | 23            | 50              | Low      | COMPLETED
+T10     | 27            | 35              | High     | COMPLETED
+T11     | 1             | 56              | Low      | COMPLETED
+
+Total Clock Cycles: 68

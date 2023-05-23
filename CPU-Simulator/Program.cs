@@ -26,6 +26,9 @@ namespace CPU
             simulator.StartSimulation(tasks, processors, ref clockCycle); // Starting The Simulation.
 
             /*****************************/
+
+            TaskReportGenerator taskReportGenerator = new TaskReportGenerator();
+            taskReportGenerator.GenerateReportFile(tasks, ref clockCycle); // Generating The Report File.
         }
         public static int clockCycle = 0;
     }
