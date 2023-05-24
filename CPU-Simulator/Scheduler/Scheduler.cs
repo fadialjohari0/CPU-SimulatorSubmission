@@ -50,8 +50,8 @@ namespace CPU
                 }
                 else if (processor.State == ProcessorState.BUSY)
                 {
-                    processor.CurrentTask!.RequestedTime--;
-                    if (processor.CurrentTask.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
+                    processor.ExecuteTask();
+                    if (processor.CurrentTask?.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
                     {
                         Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority}");
 
@@ -63,14 +63,10 @@ namespace CPU
                         Console.WriteLine($"{processor.CurrentTask.Id} is back from the low priority waiting queue at clockCycle {clockCycle} with requested time {processor.CurrentTask.RequestedTime}");
 
                     }
-                    else if (processor.CurrentTask.RequestedTime == 0)
+                    else if (processor.CurrentTask?.RequestedTime == 0)
                     {
                         Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
-                        processor.CurrentTask!.State = TaskState.COMPLETED;
-                        processor.CurrentTask.CompletionTime = Program.clockCycle;
-                        processor.CurrentTask = null;
-                        processor.State = ProcessorState.IDLE;
-
+                        processor.FinishTask();
                     }
                 }
             }
