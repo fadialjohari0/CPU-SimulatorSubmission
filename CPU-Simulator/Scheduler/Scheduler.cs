@@ -50,7 +50,7 @@ namespace CPU
                 }
                 else if (processor.State == ProcessorState.BUSY)
                 {
-                    processor.ExecuteTask();
+
                     if (processor.CurrentTask?.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
                     {
                         Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority}");
