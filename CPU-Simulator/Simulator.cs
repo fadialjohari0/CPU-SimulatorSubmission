@@ -32,11 +32,19 @@ namespace CPU
                 if (allProcessorsBusy && HighPriorityQueue.Count > 0 && anyProcessorHasLowPriorityTask)
                 {
                     scheduler.InterruptLowTasks(processors, clockCycle, LowPriorityWaitingQueue, HighPriorityQueue);
+
                 }
                 else
                 {
                     scheduler.AssignTasksToProcessors(processors, clockCycle, LowPriorityWaitingQueue, HighPriorityQueue, LowPriorityQueue);
 
+                    foreach (Processor processor in processors)
+                    {
+                        if (processor.State == ProcessorState.BUSY)
+                        {
+                            processor.ExecuteTask();
+                        }
+                    }
                     scheduler.CreateTasks(tasks, clockCycle, HighPriorityQueue, LowPriorityQueue);
                 }
             }
