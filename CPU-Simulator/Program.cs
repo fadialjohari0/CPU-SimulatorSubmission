@@ -14,6 +14,7 @@ namespace CPU
 
             int numOfProcessors = data!.NumOfProcessors; // Number Of Processors.
             List<Task> tasks = data.Tasks!; // List Of Tasks.
+            tasks.Sort((x, y) => x.CreationTime.CompareTo(y.CreationTime));
 
             /*****************************/
 
