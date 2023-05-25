@@ -66,7 +66,7 @@ namespace CPU
                     else if (processor.CurrentTask?.RequestedTime == 0)
                     {
                         Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
-                        processor.FinishTask();
+                        processor.FinishTask(clockCycle);
                     }
                 }
             }

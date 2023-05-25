@@ -29,7 +29,7 @@ namespace CPU
             /*****************************/
 
             TaskReportGenerator taskReportGenerator = new TaskReportGenerator();
-            taskReportGenerator.GenerateReportFile(tasks, ref clockCycle); // Generating The Report File.
+            taskReportGenerator.GenerateReportFile(tasks, simulator.clockCycle); // Generating The Report File.
         }
         public static int clockCycle = 0;
     }

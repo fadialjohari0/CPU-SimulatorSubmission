@@ -2,7 +2,7 @@ namespace CPU
 {
     public class TaskReportGenerator
     {
-        public void GenerateReportFile(List<Task> tasks, ref int clockCycle)
+        public void GenerateReportFile(List<Task> tasks, int clockCycle)
         {
             string filePath = Path.Combine("InputOutput", "TasksReport.txt");
             using (StreamWriter writetext = new StreamWriter(filePath))

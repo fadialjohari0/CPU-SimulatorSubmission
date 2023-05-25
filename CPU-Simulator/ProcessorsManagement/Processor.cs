@@ -18,10 +18,10 @@ namespace CPU
             CurrentTask!.RequestedTime--;
         }
 
-        public void FinishTask()
+        public void FinishTask(int clockCycle)
         {
             CurrentTask!.State = TaskState.COMPLETED;
-            CurrentTask.CompletionTime = Program.clockCycle;
+            CurrentTask.CompletionTime = clockCycle;
             CurrentTask = null;
             State = ProcessorState.IDLE;
         }
