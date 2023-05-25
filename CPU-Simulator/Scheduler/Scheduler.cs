@@ -9,19 +9,9 @@ namespace CPU
                 if (processor.CurrentTask?.Priority == "Low")
                 {
                     processor.CurrentTask.State = TaskState.WAITING;
-
-                    Console.WriteLine($"{processor.CurrentTask.Id} was interrupted with {processor.CurrentTask.Priority} at clockCycle {clockCycle} with requested time {processor.CurrentTask.RequestedTime}");
-
                     LowPriorityWaitingQueue.Enqueue(processor.CurrentTask, processor.CurrentTask.RequestedTime);
-
                     processor.CurrentTask = HighPriorityQueue.Dequeue();
-
                     processor.CurrentTask.State = TaskState.EXECUTING;
-
-
-
-                    Console.WriteLine($"{processor.CurrentTask.Id} was added instead with {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
-
                     break;
                 }
             }
@@ -36,16 +26,14 @@ namespace CPU
                     if (HighPriorityQueue.Count > 0)
                     {
                         processor.AssignTask(HighPriorityQueue.Dequeue());
-                        Console.WriteLine($"Task {processor.CurrentTask!.Id} is ASSIGNED to processor {processor.Id} at clockCycle {clockCycle}");
                         processor.State = ProcessorState.BUSY;
-                        processor.CurrentTask.State = TaskState.EXECUTING;
+                        processor.CurrentTask!.State = TaskState.EXECUTING;
                     }
                     else if (LowPriorityQueue.Count > 0)
                     {
                         processor.AssignTask(LowPriorityQueue.Dequeue());
-                        Console.WriteLine($"Task {processor.CurrentTask!.Id} is ASSIGNED to processor {processor.Id} at clockCycle {clockCycle}");
                         processor.State = ProcessorState.BUSY;
-                        processor.CurrentTask.State = TaskState.EXECUTING;
+                        processor.CurrentTask!.State = TaskState.EXECUTING;
                     }
                 }
                 else if (processor.State == ProcessorState.BUSY)
@@ -53,19 +41,12 @@ namespace CPU
 
                     if (processor.CurrentTask?.RequestedTime == 0 && LowPriorityWaitingQueue.Count > 0)
                     {
-                        Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority}");
-
                         processor.CurrentTask.State = TaskState.COMPLETED;
                         processor.CurrentTask.CompletionTime = clockCycle;
-
-
                         processor.CurrentTask = LowPriorityWaitingQueue.Dequeue();
-                        Console.WriteLine($"{processor.CurrentTask.Id} is back from the low priority waiting queue at clockCycle {clockCycle} with requested time {processor.CurrentTask.RequestedTime}");
-
                     }
                     else if (processor.CurrentTask?.RequestedTime == 0)
                     {
-                        Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
                         processor.FinishTask(clockCycle);
                     }
                 }
@@ -75,25 +56,27 @@ namespace CPU
 
         public void CreateTasks(List<Task> tasks, int clockCycle, PriorityQueue<Task, int> HighPriorityQueue, PriorityQueue<Task, int> LowPriorityQueue)
         {
-            foreach (Task task in tasks)
+            int index = 0;
+            while (index < tasks.Count)
             {
-                if (task.CreationTime == clockCycle)
+                Task task = tasks[index];
+                int creationTime = tasks[index].CreationTime;
+
+                if (creationTime == clockCycle)
                 {
                     if (task.Priority == "High")
                     {
-                        Console.WriteLine($"Task {task.Id} is CREATED in the HIGH priority queue at clockCycle {clockCycle}");
                         HighPriorityQueue.Enqueue(task, task.RequestedTime);
                         task.State = TaskState.WAITING;
                     }
                     else
                     {
-                        Console.WriteLine($"Task {task.Id} is CREATED in the LOW priority queue at clockCycle {clockCycle}");
                         LowPriorityQueue.Enqueue(task, task.RequestedTime);
                         task.State = TaskState.WAITING;
                     }
                 }
+                index++;
             }
         }
-
     }
 }
