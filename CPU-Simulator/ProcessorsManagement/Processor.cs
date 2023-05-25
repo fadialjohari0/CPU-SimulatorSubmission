@@ -12,5 +12,18 @@ namespace CPU
             CurrentTask = task;
             State = ProcessorState.BUSY;
         }
+
+        public void ExecuteTask()
+        {
+            CurrentTask!.RequestedTime--;
+        }
+
+        public void FinishTask()
+        {
+            CurrentTask!.State = TaskState.COMPLETED;
+            CurrentTask.CompletionTime = Program.clockCycle;
+            CurrentTask = null;
+            State = ProcessorState.IDLE;
+        }
     }
 }
