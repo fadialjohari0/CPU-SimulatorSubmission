@@ -67,7 +67,7 @@ namespace CPU
                     {
                         Console.WriteLine($"{processor.Id} Finished with {processor.CurrentTask.Id}! {processor.CurrentTask.Priority} at clockCycle {clockCycle}");
                         processor.CurrentTask!.State = TaskState.COMPLETED;
-                        processor.CurrentTask.CompletionTime = Program.clockCycle;
+                        processor.CurrentTask.CompletionTime = clockCycle;
                         processor.CurrentTask = null;
                         processor.State = ProcessorState.IDLE;
 
