@@ -4,7 +4,7 @@ namespace CPU
     {
         private List<Task> tasks;
         private List<Processor> processors;
-        private int clockCycle;
+        public int clockCycle;
 
         public PriorityQueue<Task, int> HighPriorityQueue { get; set; } = new PriorityQueue<Task, int>();
         public PriorityQueue<Task, int> LowPriorityQueue { get; set; } = new PriorityQueue<Task, int>();
